@@ -92,10 +92,10 @@ func SimulateSimple(sequences []string, targetTm float64, circular bool, primerL
 		reverseLocations := make(map[int][]int)
 		minimalPrimers := make([]string, primerLength)
 		for primerIndex, primer := range primerList {
-			minimalLength := minimalPrimerLength
-			for index := minimalPrimerLength; index <= len(primer); index++ {
-				if primers.MeltingTemp(primer[len(primer)-index:]) >= targetTm {
-					minimalLength = index
+			minimalLength := 0
+			for index := minimalPrimerLength; primers.MeltingTemp(primer[len(primer)-index:]) < targetTm; index++ {
+				minimalLength = index
+				if primer[len(primer)-index:] == primer {
 					break
 				}
 			}
